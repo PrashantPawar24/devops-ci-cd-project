@@ -3,29 +3,31 @@ pipeline {
 
     stages {
 
-        stage('Clone Repository') {
+        stage('Clone Repo') {
             steps {
-                echo "Cloning GitHub repository..."
+                echo "Cloning repository..."
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Image') {
             steps {
-                sh 'docker build -t prashantpawarpp/flask-devops-app:1.0 .'
+                sh 'chmod +x scripts/build.sh'
+                sh './scripts/build.sh'
             }
         }
 
-        stage('Push Docker Image') {
+        stage('Deploy Container') {
             steps {
-                sh 'docker push prashantpawarpp/flask-devops-app:1.0'
+                sh 'chmod +x scripts/deploy.sh'
+                sh './scripts/deploy.sh'
             }
         }
 
-        stage('Run Container') {
+        stage('Cleanup') {
             steps {
-                sh 'docker run -d -p 5000:5000 prashantpawarpp/flask-devops-app:1.0'
+                sh 'chmod +x scripts/cleanup.sh'
+                sh './scripts/cleanup.sh'
             }
         }
-
     }
 }
